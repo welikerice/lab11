@@ -33,6 +33,8 @@ public class FamilyTree
         {
             // Add childNode to this node's children list. Also
             // set childNode's parent to this node.
+        	children.add(childNode); 
+        	childNode.parent = childNode; 
         }
         
         
@@ -41,7 +43,7 @@ public class FamilyTree
         TreeNode getNodeWithName(String targetName)
         {
             // Does this node have the target name?
-            if (?????)
+            if (this.name.equals(targetName))
                 return this;
                     
             // No, recurse. Check all children of this node.
@@ -49,6 +51,9 @@ public class FamilyTree
             {
                 // If child.getNodeWithName(targetName) returns a non-null node,
                 // then that's the node we're looking for. Return it.
+            	if(!child.getNodeWithName(targetName).equals(null)) {
+            		return child; 
+            	}
             }
             
             // Not found anywhere.
@@ -58,7 +63,7 @@ public class FamilyTree
         
         // Returns a list of ancestors of this TreeNode, starting with this node’s parent and
         // ending with the root. Order is from recent to ancient.
-        ArrayList<TreeNode> collectAncestorsToList()
+        ArrayList<TreeNode> collectAncestorsToList(TreeNode node, TreeNode key)
         {
             ArrayList<TreeNode> ancestors = new ArrayList<>();
 
@@ -66,6 +71,19 @@ public class FamilyTree
             // the nodes of a tree is like traversing a linked list. If that isn’t clear,
             // draw a tree, mark any leaf node, and then mark its ancestors in order from
             // recent to ancient. Expect a question about this on the final exam.
+            
+            if(node == null) {
+            	return null; 
+            }
+            if(node == key) {
+            	ancestors.add(node);
+            	return ancestors; 
+            }
+            
+            if(node != key) {
+            	ancestors.add(node); 
+            	return collectAncestorsToList(node.parent, key); 
+            }
 
             return ancestors;
         }
